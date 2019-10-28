@@ -45,3 +45,14 @@ def db_with_multi_per_ownre(tasks_db, tasks_mult_per_owner):
     for t in tasks_mult_per_owner:
         tasks.add(t)
 
+@pytest.fixture(scope='session')
+def tasks_db_session(tmpdir_factory):
+    temp_dir = tmpdir_factory.mktemp('temp')
+    tasks.start_tasks_db(str(temp_dir), 'tiny')
+    yield
+    tasks.stop_tasks_db()
+
+
+@pytest.fixture()
+def tasks_db(tasks_db_session):
+    tasks.delete_all()
