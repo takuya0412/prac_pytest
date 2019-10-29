@@ -56,3 +56,39 @@ def tasks_db_session(tmpdir_factory):
 @pytest.fixture()
 def tasks_db(tasks_db_session):
     tasks.delete_all()
+
+
+@pytest.fixture(scope='session')
+def tasks_db_session(tmpdir_factory):
+    temp_dir = tmpdir_factory.mktemp('temp')
+    tasks.start_tasks_db(str(temp_dir), 'tiny')
+    yield
+    tasks.stop_tasks_db()
+
+
+@pytest.fixture()
+def tasks_db(tasks_db_session):
+    tasks.delete_all()
+
+
+@pytest.fixture(scope='session')
+def tasks_just_a_few():
+    return (
+        Task('Write some code', 'Brian', True),
+        Task("Code review Brian's  code", 'Katie', False),
+        Task("Fix what Brian did", "Michell", False),
+    )
+
+@pytest.fixture(scope='session')
+def tasks_mult_per_owner():
+    return (
+        Task('Make a cookie', 'Raphael'),
+        Task('Use an emoji', 'Raphael'),
+        Task('Move to Berlin', 'Raphael'),
+
+        Task('Create', 'Micheal'),
+        Task('Inspire', 'Micheal'),
+        Task('Encourage', 'Micheal'),
+
+        
+    )
