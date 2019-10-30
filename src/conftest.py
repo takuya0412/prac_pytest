@@ -90,5 +90,5 @@ def tasks_mult_per_owner():
         Task('Inspire', 'Micheal'),
         Task('Encourage', 'Micheal'),
 
-        
+
     )
