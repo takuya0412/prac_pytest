@@ -41,11 +41,12 @@ def db_with_3_tasks(tasks_db, tasks_just_a_few):
 
 
 @pytest.fixture()
-def db_with_multi_per_ownre(tasks_db, tasks_mult_per_owner):
+def db_with_multi_per_owner(tasks_db, tasks_mult_per_owner):
     for t in tasks_mult_per_owner:
         tasks.add(t)
 
-@pytest.fixture(scope='session')
+# @pytest.fixture(scope='session')
+@pytest.fixture(scope='session', params=['tiny', 'mongo'])
 def tasks_db_session(tmpdir_factory):
     temp_dir = tmpdir_factory.mktemp('temp')
     tasks.start_tasks_db(str(temp_dir), 'tiny')

@@ -35,7 +35,23 @@ def b_task(request):
     return request.param
 
 
-def test_add_b(task_id, b_task):
+def test_add_b(tasks_db, b_task):
     task_id = tasks.add(b_task)
     t_from_db = tasks.get(task_id)
     assert equivalent(t_from_db, b_task)
+
+
+def id_func(fixture_value):
+    t = fixture_value
+    return 'Task({}, {}, {})'.format(t.summary, t.owner, t.done)
+
+
+@pytest.fixture(params=tasks_to_try, ids=id_func)
+def c_task(request):
+    return request.param
+
+
+def test_add_c(tasks_db, c_task):
+    task_id = tasks.add(c_task)
+    t_from_db = tasks.get(task_id)
+    assert equivalent(t_from_db, c_task)
